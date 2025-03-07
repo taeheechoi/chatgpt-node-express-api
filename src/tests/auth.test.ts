@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
 import request from 'supertest';
-import app from '../server';
+import app, { server } from '../server';
 
 
 const prisma = new PrismaClient();
 
 const testUser = {
-  email: 'testuser@example.com',
+  email: 'test@example.com',
   password: 'Test@1234',
 };
 
@@ -14,11 +14,21 @@ let refreshToken: string;
 let accessToken: string;
 
 beforeAll(async () => {
+  await prisma.post.deleteMany();
   await prisma.user.deleteMany(); // Clean database before tests
 });
 
 afterAll(async () => {
   await prisma.$disconnect();
+  await new Promise<void>((resolve, reject) => { // Close the server
+    server.close((err) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
 });
 
 describe('Auth API Tests', () => {

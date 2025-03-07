@@ -261,6 +261,62 @@ npm run dev
     │   ├── ...
     ```
 
+
+### Add POST Service
+- Structures
+    ```
+    my-api/
+    │── prisma/
+    │   ├── schema.prisma 
+    │── src/
+    │   ├── controllers/
+    │   │   ├── authController.ts
+    │   │   ├── exampleController.ts
+    │   │   ├── postController.ts <--
+    │   ├── middleware/
+    │   │   ├── authMiddleware.ts
+    │   │   ├── errorHandler.ts
+    │   │   ├── rateLimiter.ts 
+    │   │   ├── validateRequest.ts 
+    │   ├── routes/
+    │   │   ├── authRoutes.ts
+    │   │   ├── index.ts
+    │   │   ├── postRoutes.ts <--
+    │   ├── services/
+    │   │   ├── authService.ts
+    │   │   ├── postService.ts <--
+    │   ├── utils/
+    │   │   ├── jwt.ts
+    │   │   ├── mail.ts
+    │   ├── validators/
+    │   │   ├── authSchemas.ts
+    │   │   ├── postSchemas.ts <--
+    │   ├── tests/
+    │   │   ├── auth.test.ts  
+    │   ├── config.ts
+    │   ├── server.ts
+    │── tsconfig.json
+    │── package.json
+    │── jest.config.js
+    │── .env
+    │── .gitignore
+    │── README.md
+    ```
+    - src/validators/postSchemas.ts: Create schemas for Zod validation
+    - src/services/postService.ts: Business Logic for create Post and get Posts 
+    - src/controllers/postController.ts: Handles API Requests
+    - src/routes/postRoutes.ts: Route with authMiddleware and rateLimiter
+    - src/server.ts: Include postRoutes
+    - prisma/schema.prisma: Add a Post model
+    - Apply Changes using Prisma commands
+    ```
+    npx prisma migrate dev --name add_posts
+    ```
+    - src/tests/post.test.ts: Write test cases
+
+
+
+
 ### Reference
 - https://chatgpt.com/share/67c74c76-1354-800c-89f6-352cb4c60500
 - https://levelup.gitconnected.com/the-chatgpt-hack-top-1-developers-use-to-write-code-10x-faster-d1f32d3b3c52
